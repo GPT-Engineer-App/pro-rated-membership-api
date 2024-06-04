@@ -1,0 +1,28 @@
+package com.example.membershipmanagement.service;
+
+import com.example.membershipmanagement.entity.Membership;
+import com.example.membershipmanagement.repository.MembershipRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+@Service
+public class MembershipService {
+
+    @Autowired
+    private MembershipRepository membershipRepository;
+
+    public Membership createMembership(Membership membership) {
+        LocalDate startDate = membership.getStartDate();
+        LocalDate endOfMonth = startDate.withDayOfMonth(startDate.lengthOfMonth());
+        long daysInMonth = ChronoUnit.DAYS.between(startDate.withDayOfMonth(1), endOfMonth.plusDays(1));
+        long daysRemaining = ChronoUnit.DAYS.between(startDate, endOfMonth.plusDays(1));
+
+        double proRatedFee = (membership.getMonthlyFee() / daysInMonth) * daysRemaining;
+        membership.setMonthlyFee(proRatedFee);
+
+        return membershipRepository.save(membership);
+    }
+}

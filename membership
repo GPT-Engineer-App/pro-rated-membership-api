@@ -1,0 +1,8 @@
+POST /api/memberships
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "startDate": "2023-10-15",
+    "monthlyFee": 100.0
+}

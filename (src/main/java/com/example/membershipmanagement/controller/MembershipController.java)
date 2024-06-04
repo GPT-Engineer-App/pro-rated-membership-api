@@ -1,0 +1,19 @@
+package com.example.membershipmanagement.controller;
+
+import com.example.membershipmanagement.entity.Membership;
+import com.example.membershipmanagement.service.MembershipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/memberships")
+public class MembershipController {
+
+    @Autowired
+    private MembershipService membershipService;
+
+    @PostMapping
+    public Membership createMembership(@RequestBody Membership membership) {
+        return membershipService.createMembership(membership);
+    }
+}
